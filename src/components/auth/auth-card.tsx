@@ -1,4 +1,4 @@
-import { Logo } from "@/components/layout/logo";
+import { LogoFull } from "@/components/layout/logo";
 
 export function AuthCard({
   title,
@@ -20,7 +20,7 @@ export function AuthCard({
 
       <div className="w-full max-w-sm">
         <div className="mb-6 flex flex-col items-center text-center">
-          <Logo iconOnly className="mb-3" />
+          <LogoFull width={180} className="mb-4" />
           <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
           {subtitle ? (
             <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
