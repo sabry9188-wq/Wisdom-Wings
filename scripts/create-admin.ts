@@ -7,8 +7,10 @@
  * Requires .env.local to contain NEXT_PUBLIC_SUPABASE_URL and
  * SUPABASE_SERVICE_ROLE_KEY (the service-role key — keep it secret).
  */
-import "dotenv/config";
+import { config } from "dotenv";
 import { createClient } from "@supabase/supabase-js";
+
+config({ path: ".env.local" });
 
 function getArg(name: string): string | undefined {
   const index = process.argv.indexOf(`--${name}`);
