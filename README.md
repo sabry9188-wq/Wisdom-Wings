@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wisdom Wings — Class Management System
 
-## Getting Started
+A web-based class management system for Admins, Teachers, and Parents:
+student/teacher/parent management, class assignment, attendance, fee &
+payment tracking, and SMS notifications (pluggable provider, MVP defaults to
+a console logger).
 
-First, run the development server:
+**Stack:** Next.js (App Router, TypeScript) · Tailwind CSS · Supabase
+(Postgres, Auth, Storage) · Vercel.
+
+## 1. Create the Supabase project
+
+1. Go to [supabase.com](https://supabase.com) and create a new project.
+2. In **Project Settings → API**, copy the **Project URL**, the **anon
+   public key**, and the **service_role key** (keep the service-role key
+   secret — never commit it or expose it to the browser).
+
+## 2. Run the database migrations
+
+In the Supabase dashboard, open **SQL Editor** and run the files in
+`supabase/migrations/` **in order**:
+
+1. `0001_schema.sql` — tables, enums, indexes
+2. `0002_functions.sql` — RLS helper functions, triggers (receipt numbers,
+   fee status recompute, attendance edit window, role-escalation guard)
+3. `0003_rls_policies.sql` — Row Level Security policies
+4. `0004_storage.sql` — creates the private `student-photos` Storage bucket
+   and its access policies
+
+Each file is idempotent-ish for a fresh project, but they must be run once,
+in order, on an empty database.
+
+## 3. Configure environment variables
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and
+`SUPABASE_SERVICE_ROLE_KEY` from step 1. Leave `SMS_PROVIDER=console` for
+now — see [SMS providers](#sms-providers) below.
+
+## 4. Install dependencies and create the first Admin
+
+```bash
+npm install
+npm run create-admin -- --email admin@yourschool.com --password "Str0ngPass!23" --name "School Admin"
+```
+
+This is the **only** way an Admin account is created — there is no public
+admin sign-up. The Admin then creates Teacher and Parent accounts from
+**Admin → Teachers / Parents** in the app.
+
+## 5. Run the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) and log in with the
+Admin account you just created.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## SMS providers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`src/lib/sms/` defines an `SmsProvider` interface. The MVP ships with a
+`console` provider (`src/lib/sms/providers/console-provider.ts`) that logs
+messages instead of sending them, so the fee-reminder and absence-alert
+workflows — and the `sms_logs` table — are fully wired end-to-end without a
+real gateway. To connect a real provider later:
 
-## Learn More
+1. Add a new file under `src/lib/sms/providers/` implementing `SmsProvider`.
+2. Add a case for it in the factory in `src/lib/sms/index.ts`.
+3. Set `SMS_PROVIDER` (and any provider-specific env vars) in `.env.local`
+   and in Vercel's environment variables.
 
-To learn more about Next.js, take a look at the following resources:
+No changes are needed anywhere else — `/api/sms/send` calls the factory, not
+a specific provider.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploying to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push this repository to GitHub (already connected).
+2. Import the repo in [Vercel](https://vercel.com/new).
+3. Add the same environment variables from `.env.local` to the Vercel
+   project (**Project Settings → Environment Variables**), for both
+   Production and Preview.
+4. In Supabase, under **Authentication → URL Configuration**, add your
+   Vercel production domain (and any preview domains you use) to the
+   **Redirect URLs** allow-list, so `resetPasswordForEmail` links work in
+   production.
+5. Deploy.
 
-## Deploy on Vercel
+## Security notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Row Level Security is enabled on every table; the Next.js `proxy.ts`
+  (route protection) is a UX convenience layered on top — RLS is the real
+  security boundary.
+- `SUPABASE_SERVICE_ROLE_KEY` is only read from server-only code
+  (`src/lib/supabase/admin.ts`, guarded with the `server-only` package, and
+  `scripts/create-admin.ts`). It is never prefixed with `NEXT_PUBLIC_` and
+  must never be committed.
+- Student photos live in a **private** Supabase Storage bucket; access is
+  scoped per-student via the same RLS helper functions used for the
+  database tables.
