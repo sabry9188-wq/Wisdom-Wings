@@ -6,6 +6,7 @@ import { StatCard, Card, CardHeader, CardBody } from "@/components/ui/card";
 import { Table, Thead, Tbody, Th, Td, EmptyState } from "@/components/ui/table";
 import { SmsStatusBadge } from "@/components/ui/badge";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { Users, GraduationCap, Heart, School, CalendarCheck, Wallet } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   await requireRole("admin");
@@ -68,20 +69,24 @@ export default async function AdminDashboardPage() {
     <div>
       <PageHeader title="Dashboard" description="School overview" />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Total Students" value={studentsCount.count ?? 0} />
-        <StatCard label="Total Teachers" value={teachersCount.count ?? 0} />
-        <StatCard label="Total Parents" value={parentsCount.count ?? 0} />
-        <StatCard label="Total Classes" value={classesCount.count ?? 0} />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StatCard label="Total Students" value={studentsCount.count ?? 0} icon={GraduationCap} tone="indigo" />
+        <StatCard label="Total Teachers" value={teachersCount.count ?? 0} icon={Users} tone="sky" />
+        <StatCard label="Total Parents" value={parentsCount.count ?? 0} icon={Heart} tone="amber" />
+        <StatCard label="Total Classes" value={classesCount.count ?? 0} icon={School} tone="indigo" />
         <StatCard
           label="Today's Attendance"
           value={totalMarkedToday}
           hint={`${presentToday} present · ${absentToday} absent · ${lateToday} late`}
+          icon={CalendarCheck}
+          tone="green"
         />
         <StatCard
           label="Outstanding Fees"
           value={formatCurrency(outstandingTotal)}
           hint={`${outstandingFees.data?.length ?? 0} unpaid/partial fee records`}
+          icon={Wallet}
+          tone="red"
         />
       </div>
 

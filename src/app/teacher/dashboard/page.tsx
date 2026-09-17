@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader, StatCard } from "@/components/ui/card";
 import { Table, Thead, Tbody, Th, Td, EmptyState } from "@/components/ui/table";
 import { AttendanceBadge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
+import { School, GraduationCap, CalendarCheck } from "lucide-react";
 
 export default async function TeacherDashboardPage() {
   const user = await requireRole("teacher");
@@ -57,12 +58,14 @@ export default async function TeacherDashboardPage() {
       <PageHeader title="Dashboard" description={`Welcome back, ${user.full_name}`} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Assigned Classes" value={classRows?.length ?? 0} />
-        <StatCard label="Total Students" value={studentsCount.count ?? 0} />
+        <StatCard label="Assigned Classes" value={classRows?.length ?? 0} icon={School} tone="indigo" />
+        <StatCard label="Total Students" value={studentsCount.count ?? 0} icon={GraduationCap} tone="sky" />
         <StatCard
           label="Attendance Marked Today"
           value={`${markedClassIds.size}/${classRows?.length ?? 0}`}
           hint="classes"
+          icon={CalendarCheck}
+          tone="green"
         />
       </div>
 

@@ -11,7 +11,7 @@ export function Table({ children }: { children: React.ReactNode }) {
 }
 
 export function Thead({ children }: { children: React.ReactNode }) {
-  return <thead className="bg-slate-50">{children}</thead>;
+  return <thead className="bg-slate-50/80">{children}</thead>;
 }
 
 export function Th({ children, className }: { children?: React.ReactNode; className?: string }) {
@@ -29,7 +29,11 @@ export function Th({ children, className }: { children?: React.ReactNode; classN
 }
 
 export function Tbody({ children }: { children: React.ReactNode }) {
-  return <tbody className="divide-y divide-slate-100 bg-white">{children}</tbody>;
+  return (
+    <tbody className="divide-y divide-slate-100 bg-white [&>tr]:transition-colors [&>tr:hover]:bg-slate-50/80">
+      {children}
+    </tbody>
+  );
 }
 
 export function Td({

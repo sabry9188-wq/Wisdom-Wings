@@ -18,20 +18,28 @@ export function Sidebar({ role }: { role: UserRole }) {
     .sort((a, b) => b.href.length - a.href.length)[0];
 
   return (
-    <nav className="flex flex-col gap-1 p-3">
+    <nav className="flex flex-col gap-0.5 p-3">
       {items.map((item) => {
         const active = item.href === bestMatch?.href;
+        const Icon = item.icon;
         return (
           <Link
             key={item.href}
             href={item.href}
             className={cn(
-              "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
               active
-                ? "bg-indigo-600 text-white"
-                : "text-slate-600 hover:bg-slate-100",
+                ? "bg-indigo-600 text-white shadow-sm shadow-indigo-600/25"
+                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
             )}
           >
+            <Icon
+              className={cn(
+                "h-[18px] w-[18px] shrink-0",
+                active ? "text-white" : "text-slate-400 group-hover:text-slate-600",
+              )}
+              strokeWidth={2}
+            />
             {item.label}
           </Link>
         );

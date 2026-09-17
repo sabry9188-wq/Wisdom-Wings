@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { FeesFilterBar } from "@/components/fees/fees-filter-bar";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { FeeStatus } from "@/types/database";
+import { Wallet, Receipt } from "lucide-react";
 
 const FEE_STATUSES: FeeStatus[] = ["unpaid", "partially_paid", "paid"];
 
@@ -57,8 +58,8 @@ export default async function FeesPage({
       />
 
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <StatCard label="Outstanding" value={formatCurrency(outstandingTotal)} />
-        <StatCard label="Unpaid/Partial Records" value={outstanding?.length ?? 0} />
+        <StatCard label="Outstanding" value={formatCurrency(outstandingTotal)} icon={Wallet} tone="red" />
+        <StatCard label="Unpaid/Partial Records" value={outstanding?.length ?? 0} icon={Receipt} tone="amber" />
       </div>
 
       <FeesFilterBar classes={classes ?? []} />

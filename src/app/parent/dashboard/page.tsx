@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader, StatCard } from "@/components/ui/card";
 import { Table, Thead, Tbody, Th, Td, EmptyState } from "@/components/ui/table";
 import { AttendanceBadge, FeeStatusBadge } from "@/components/ui/badge";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { Heart, Wallet, Receipt } from "lucide-react";
 
 export default async function ParentDashboardPage() {
   const user = await requireRole("parent");
@@ -45,9 +46,9 @@ export default async function ParentDashboardPage() {
       <PageHeader title="Dashboard" description={`Welcome, ${user.full_name}`} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Children" value={links?.length ?? 0} />
-        <StatCard label="Outstanding Fees" value={formatCurrency(outstandingTotal)} />
-        <StatCard label="Unpaid Fee Records" value={fees.data?.length ?? 0} />
+        <StatCard label="Children" value={links?.length ?? 0} icon={Heart} tone="amber" />
+        <StatCard label="Outstanding Fees" value={formatCurrency(outstandingTotal)} icon={Wallet} tone="red" />
+        <StatCard label="Unpaid Fee Records" value={fees.data?.length ?? 0} icon={Receipt} tone="indigo" />
       </div>
 
       <div className="mt-6">

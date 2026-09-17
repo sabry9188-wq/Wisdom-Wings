@@ -6,6 +6,7 @@ import { Table, Thead, Tbody, Th, Td, EmptyState } from "@/components/ui/table";
 import { AttendanceBadge } from "@/components/ui/badge";
 import { AttendanceReportFilterBar } from "@/components/attendance/attendance-report-filter-bar";
 import { formatDate } from "@/lib/utils";
+import { CheckCircle2, XCircle, Clock } from "lucide-react";
 
 export default async function AttendanceReportsPage({
   searchParams,
@@ -45,9 +46,9 @@ export default async function AttendanceReportsPage({
       <AttendanceReportFilterBar classes={classes ?? []} />
 
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Present" value={presentCount} />
-        <StatCard label="Absent" value={absentCount} />
-        <StatCard label="Late" value={lateCount} />
+        <StatCard label="Present" value={presentCount} icon={CheckCircle2} tone="green" />
+        <StatCard label="Absent" value={absentCount} icon={XCircle} tone="red" />
+        <StatCard label="Late" value={lateCount} icon={Clock} tone="amber" />
       </div>
 
       <Card>

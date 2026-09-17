@@ -5,6 +5,7 @@ import { Card, CardBody, StatCard } from "@/components/ui/card";
 import { Table, Thead, Tbody, Th, Td, EmptyState } from "@/components/ui/table";
 import { FeeStatusBadge } from "@/components/ui/badge";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { Wallet, Receipt } from "lucide-react";
 
 export default async function ParentFeesPage() {
   const user = await requireRole("parent");
@@ -34,8 +35,8 @@ export default async function ParentFeesPage() {
       <PageHeader title="Fees" description="All fee records for your children" />
 
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <StatCard label="Outstanding Balance" value={formatCurrency(outstandingTotal)} />
-        <StatCard label="Unpaid/Partial Records" value={outstanding.length} />
+        <StatCard label="Outstanding Balance" value={formatCurrency(outstandingTotal)} icon={Wallet} tone="red" />
+        <StatCard label="Unpaid/Partial Records" value={outstanding.length} icon={Receipt} tone="amber" />
       </div>
 
       <Card>
