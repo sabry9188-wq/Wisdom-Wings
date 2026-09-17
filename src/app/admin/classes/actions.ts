@@ -34,6 +34,16 @@ export async function createClassAction(formData: FormData) {
     return { error: error?.message ?? "Failed to create class" };
   }
 
+  const teacherIds = formData.getAll("teacher_ids").map(String).filter(Boolean);
+  if (teacherIds.length > 0) {
+    const { error: teacherError } = await supabase
+      .from("class_teachers")
+      .insert(teacherIds.map((teacherId) => ({ class_id: data.id, teacher_id: teacherId })));
+    if (teacherError) {
+      return { error: `Class created, but teacher assignment failed: ${teacherError.message}` };
+    }
+  }
+
   revalidatePath("/admin/classes");
   redirect(`/admin/classes/${data.id}`);
 }
