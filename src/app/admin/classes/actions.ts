@@ -102,6 +102,31 @@ export async function syncClassTeachersAction(
   return { success: true };
 }
 
+export async function syncTeacherClassesAction(
+  teacherId: string,
+  classIds: string[],
+) {
+  const supabase = await createClient();
+
+  const { error: deleteError } = await supabase
+    .from("class_teachers")
+    .delete()
+    .eq("teacher_id", teacherId);
+
+  if (deleteError) return { error: deleteError.message };
+
+  if (classIds.length > 0) {
+    const { error: insertError } = await supabase.from("class_teachers").insert(
+      classIds.map((classId) => ({ class_id: classId, teacher_id: teacherId })),
+    );
+    if (insertError) return { error: insertError.message };
+  }
+
+  revalidatePath(`/admin/teachers/${teacherId}`);
+  revalidatePath("/admin/classes");
+  return { success: true };
+}
+
 export async function assignStudentsToClassAction(
   classId: string,
   studentIds: string[],
