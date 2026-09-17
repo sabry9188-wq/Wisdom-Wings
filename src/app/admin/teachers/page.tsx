@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireRole } from "@/lib/auth/guards";
 import { createClient } from "@/lib/supabase/server";
+import { getSignedProfilePhotoUrls } from "@/lib/storage/profile-photos";
 import { PageHeader } from "@/components/layout/page-header";
 import { Card, CardBody } from "@/components/ui/card";
 import { Table, Thead, Tbody, Th, Td, EmptyState } from "@/components/ui/table";
@@ -13,9 +14,14 @@ export default async function TeachersPage() {
 
   const { data: teachers } = await supabase
     .from("users")
-    .select("id, full_name, email, phone, is_active, class_teachers(count)")
+    .select("id, full_name, email, phone, is_active, photo_url, subject, class_teachers(count)")
     .eq("role", "teacher")
     .order("full_name");
+
+  const photoUrls = await getSignedProfilePhotoUrls(
+    supabase,
+    teachers?.map((t) => t.photo_url) ?? [],
+  );
 
   return (
     <div>
@@ -35,7 +41,9 @@ export default async function TeachersPage() {
             <Table>
               <Thead>
                 <tr>
+                  <Th></Th>
                   <Th>Name</Th>
+                  <Th>Subject</Th>
                   <Th>Email</Th>
                   <Th>Phone</Th>
                   <Th>Classes</Th>
@@ -45,6 +53,17 @@ export default async function TeachersPage() {
               <Tbody>
                 {teachers.map((t) => (
                   <tr key={t.id}>
+                    <Td className="w-12">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={
+                          (t.photo_url && photoUrls.get(t.photo_url)) ||
+                          "/avatar-placeholder.svg"
+                        }
+                        alt=""
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
+                    </Td>
                     <Td>
                       <Link
                         href={`/admin/teachers/${t.id}`}
@@ -53,6 +72,7 @@ export default async function TeachersPage() {
                         {t.full_name}
                       </Link>
                     </Td>
+                    <Td>{t.subject ?? "—"}</Td>
                     <Td>{t.email}</Td>
                     <Td>{t.phone ?? "—"}</Td>
                     <Td>{t.class_teachers?.[0]?.count ?? 0}</Td>

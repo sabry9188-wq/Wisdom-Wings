@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { EditUserForm } from "@/components/admin-users/edit-user-form";
 import { ToggleUserActiveButton } from "@/components/admin-users/toggle-user-active-button";
 import { TeacherClassesAssign } from "@/components/admin-users/teacher-classes-assign";
+import { getSignedProfilePhotoUrl } from "@/lib/storage/profile-photos";
 
 export default async function TeacherDetailsPage({
   params,
@@ -26,9 +27,10 @@ export default async function TeacherDetailsPage({
 
   if (!teacher) notFound();
 
-  const [{ data: allClasses }, { data: assigned }] = await Promise.all([
+  const [{ data: allClasses }, { data: assigned }, photoUrl] = await Promise.all([
     supabase.from("classes").select("id, name, section").eq("is_active", true).order("name"),
     supabase.from("class_teachers").select("class_id").eq("teacher_id", id),
+    getSignedProfilePhotoUrl(supabase, teacher.photo_url),
   ]);
 
   return (
@@ -55,7 +57,7 @@ export default async function TeacherDetailsPage({
         <Card>
           <CardHeader title="Details" />
           <CardBody>
-            <EditUserForm user={teacher} listPath="/admin/teachers" />
+            <EditUserForm user={teacher} listPath="/admin/teachers" photoUrl={photoUrl} />
           </CardBody>
         </Card>
 

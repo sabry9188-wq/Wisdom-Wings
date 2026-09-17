@@ -6,7 +6,10 @@ import { generateTempPassword } from "@/lib/generate-temp-password";
 
 /**
  * Admin-only: creates a Teacher or Parent account. Teachers and parents can
- * never self-register — this is the only path that creates one.
+ * never self-register — this is the only path that creates one. Accepts
+ * multipart form data so an optional profile photo can be uploaded in the
+ * same request (the storage path needs the auth user's id, which only
+ * exists after createUser() below).
  */
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -28,8 +31,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const body = await request.json().catch(() => null);
-  const parsed = createUserSchema.safeParse(body);
+  const formData = await request.formData().catch(() => null);
+  if (!formData) {
+    return NextResponse.json({ error: "Invalid form data" }, { status: 400 });
+  }
+
+  const field = (name: string) => {
+    const value = formData.get(name);
+    return typeof value === "string" ? value : "";
+  };
+
+  const parsed = createUserSchema.safeParse({
+    role: field("role"),
+    full_name: field("full_name"),
+    email: field("email"),
+    phone: field("phone"),
+    date_of_birth: field("date_of_birth"),
+    gender: field("gender"),
+    address: field("address"),
+    subject: field("subject"),
+  });
+
   if (!parsed.success) {
     return NextResponse.json(
       { error: parsed.error.issues[0]?.message ?? "Invalid input" },
@@ -37,7 +59,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const { role, full_name, email, phone } = parsed.data;
+  const photo = formData.get("photo");
+  const photoFile = photo instanceof File && photo.size > 0 ? photo : null;
+
+  const { role, full_name, email, phone, date_of_birth, gender, address, subject } = parsed.data;
   const tempPassword = generateTempPassword();
   const admin = createAdminClient();
 
@@ -54,6 +79,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
+  let photoPath: string | null = null;
+  if (photoFile) {
+    const extension = photoFile.name.split(".").pop() ?? "jpg";
+    const path = `${created.user.id}/${crypto.randomUUID()}.${extension}`;
+    const { error: uploadError } = await admin.storage
+      .from("profile-photos")
+      .upload(path, photoFile, { contentType: photoFile.type });
+    if (!uploadError) {
+      photoPath = path;
+    }
+    // A failed photo upload isn't fatal — the account still gets created.
+  }
+
   const { error: profileError } = await admin.from("users").insert({
     id: created.user.id,
     role,
@@ -61,6 +99,11 @@ export async function POST(request: Request) {
     email,
     phone: phone || null,
     is_active: true,
+    date_of_birth: date_of_birth || null,
+    gender: (gender || null) as "male" | "female" | "other" | null,
+    address: address || null,
+    subject: subject || null,
+    photo_url: photoPath,
   });
 
   if (profileError) {

@@ -15,6 +15,11 @@ export interface Database {
           email: string | null;
           phone: string | null;
           is_active: boolean;
+          date_of_birth: string | null;
+          gender: "male" | "female" | "other" | null;
+          address: string | null;
+          subject: string | null;
+          photo_url: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -25,6 +30,11 @@ export interface Database {
           email?: string | null;
           phone?: string | null;
           is_active?: boolean;
+          date_of_birth?: string | null;
+          gender?: "male" | "female" | "other" | null;
+          address?: string | null;
+          subject?: string | null;
+          photo_url?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["users"]["Insert"]>;
         Relationships: [];
