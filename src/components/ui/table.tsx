@@ -14,7 +14,7 @@ export function Thead({ children }: { children: React.ReactNode }) {
   return <thead className="bg-slate-50">{children}</thead>;
 }
 
-export function Th({ children, className }: { children: React.ReactNode; className?: string }) {
+export function Th({ children, className }: { children?: React.ReactNode; className?: string }) {
   return (
     <th
       scope="col"
