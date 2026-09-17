@@ -22,6 +22,7 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   teacher: [
     { href: "/teacher/dashboard", label: "Dashboard" },
     { href: "/teacher/classes", label: "My Classes" },
+    { href: "/teacher/students", label: "Students" },
     { href: "/teacher/attendance", label: "Mark Attendance" },
     { href: "/teacher/attendance/history", label: "Attendance History" },
     { href: "/teacher/profile", label: "Profile" },
