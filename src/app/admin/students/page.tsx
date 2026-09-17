@@ -92,7 +92,7 @@ export default async function StudentsPage({
                     <Td>
                       <Link
                         href={`/admin/students/${s.id}`}
-                        className="text-indigo-600 hover:underline"
+                        className="text-brand-600 hover:underline"
                       >
                         {s.student_code}
                       </Link>

@@ -47,7 +47,7 @@ export default async function ClassesPage() {
                     <Td>
                       <Link
                         href={`/admin/classes/${c.id}`}
-                        className="text-indigo-600 hover:underline"
+                        className="text-brand-600 hover:underline"
                       >
                         {c.name}
                         {c.section ? ` - ${c.section}` : ""}

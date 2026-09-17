@@ -42,7 +42,7 @@ export default async function FeeDetailsPage({
       <PageHeader
         title={fee.title}
         description={
-          <Link href={`/admin/students/${fee.students?.id}`} className="text-indigo-600 hover:underline">
+          <Link href={`/admin/students/${fee.students?.id}`} className="text-brand-600 hover:underline">
             {fee.students?.full_name} ({fee.students?.student_code})
           </Link>
         }

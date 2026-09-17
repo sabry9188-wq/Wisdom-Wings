@@ -48,7 +48,7 @@ export default async function ParentsPage() {
                     <Td>
                       <Link
                         href={`/admin/parents/${p.id}`}
-                        className="text-indigo-600 hover:underline"
+                        className="text-brand-600 hover:underline"
                       >
                         {p.full_name}
                       </Link>

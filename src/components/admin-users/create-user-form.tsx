@@ -50,7 +50,7 @@ export function CreateUserForm({ role }: { role: Extract<UserRole, "teacher" | "
           They should sign in and change their password, or use &ldquo;Forgot
           password&rdquo; on the login page.
         </p>
-        <Link href={listHref} className="mt-3 inline-block text-sm text-indigo-600 hover:underline">
+        <Link href={listHref} className="mt-3 inline-block text-sm text-brand-600 hover:underline">
           Back to list
         </Link>
       </div>

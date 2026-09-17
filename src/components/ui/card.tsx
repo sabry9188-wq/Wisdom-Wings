@@ -22,10 +22,10 @@ export function CardBody({ className, children }: { className?: string; children
   return <div className={cn("p-5", className)}>{children}</div>;
 }
 
-type Tone = "indigo" | "green" | "amber" | "red" | "sky";
+type Tone = "brand" | "green" | "amber" | "red" | "sky";
 
 const TONE_CLASSES: Record<Tone, string> = {
-  indigo: "bg-indigo-50 text-indigo-600",
+  brand: "bg-brand-50 text-brand-600",
   green: "bg-emerald-50 text-emerald-600",
   amber: "bg-amber-50 text-amber-600",
   red: "bg-red-50 text-red-600",
@@ -37,7 +37,7 @@ export function StatCard({
   value,
   hint,
   icon: Icon,
-  tone = "indigo",
+  tone = "brand",
 }: {
   label: string;
   value: string | number;

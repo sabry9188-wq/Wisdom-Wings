@@ -42,7 +42,7 @@ export function DashboardShell({
             <Menu className="h-5 w-5" />
           </button>
           <Logo />
-          <span className="hidden rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-600 sm:inline">
+          <span className="hidden rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-600 sm:inline">
             {ROLE_LABEL[role]}
           </span>
         </div>

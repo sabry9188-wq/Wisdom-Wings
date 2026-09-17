@@ -48,7 +48,7 @@ export default async function ParentDashboardPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label="Children" value={links?.length ?? 0} icon={Heart} tone="amber" />
         <StatCard label="Outstanding Fees" value={formatCurrency(outstandingTotal)} icon={Wallet} tone="red" />
-        <StatCard label="Unpaid Fee Records" value={fees.data?.length ?? 0} icon={Receipt} tone="indigo" />
+        <StatCard label="Unpaid Fee Records" value={fees.data?.length ?? 0} icon={Receipt} tone="brand" />
       </div>
 
       <div className="mt-6">
@@ -60,7 +60,7 @@ export default async function ParentDashboardPage() {
                 <Link
                   key={l.student_id}
                   href={`/parent/children/${l.student_id}`}
-                  className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:border-indigo-300 hover:bg-indigo-50"
+                  className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 hover:border-brand-300 hover:bg-brand-50"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -90,7 +90,7 @@ export default async function ParentDashboardPage() {
           <CardHeader
             title="Outstanding fees"
             action={
-              <Link href="/parent/fees" className="text-sm text-indigo-600 hover:underline">
+              <Link href="/parent/fees" className="text-sm text-brand-600 hover:underline">
                 View all
               </Link>
             }
@@ -137,7 +137,7 @@ export default async function ParentDashboardPage() {
           <CardHeader
             title="Recent attendance"
             action={
-              <Link href="/parent/attendance" className="text-sm text-indigo-600 hover:underline">
+              <Link href="/parent/attendance" className="text-sm text-brand-600 hover:underline">
                 View all
               </Link>
             }

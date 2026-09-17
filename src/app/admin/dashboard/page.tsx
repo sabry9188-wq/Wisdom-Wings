@@ -70,10 +70,10 @@ export default async function AdminDashboardPage() {
       <PageHeader title="Dashboard" description="School overview" />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard label="Total Students" value={studentsCount.count ?? 0} icon={GraduationCap} tone="indigo" />
+        <StatCard label="Total Students" value={studentsCount.count ?? 0} icon={GraduationCap} tone="brand" />
         <StatCard label="Total Teachers" value={teachersCount.count ?? 0} icon={Users} tone="sky" />
         <StatCard label="Total Parents" value={parentsCount.count ?? 0} icon={Heart} tone="amber" />
-        <StatCard label="Total Classes" value={classesCount.count ?? 0} icon={School} tone="indigo" />
+        <StatCard label="Total Classes" value={classesCount.count ?? 0} icon={School} tone="brand" />
         <StatCard
           label="Today's Attendance"
           value={totalMarkedToday}
@@ -97,7 +97,7 @@ export default async function AdminDashboardPage() {
             action={
               <Link
                 href="/admin/payments"
-                className="text-sm text-indigo-600 hover:underline"
+                className="text-sm text-brand-600 hover:underline"
               >
                 View all
               </Link>
@@ -137,7 +137,7 @@ export default async function AdminDashboardPage() {
             action={
               <Link
                 href="/admin/sms-center"
-                className="text-sm text-indigo-600 hover:underline"
+                className="text-sm text-brand-600 hover:underline"
               >
                 View all
               </Link>

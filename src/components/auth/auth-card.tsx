@@ -15,7 +15,7 @@ export function AuthCard({
         aria-hidden
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 flex justify-center blur-3xl"
       >
-        <div className="aspect-[1155/678] w-[50rem] bg-gradient-to-tr from-indigo-200 via-violet-100 to-amber-100 opacity-60" />
+        <div className="aspect-[1155/678] w-[50rem] bg-gradient-to-tr from-brand-200 via-brand-100 to-accent-100 opacity-60" />
       </div>
 
       <div className="w-full max-w-sm">

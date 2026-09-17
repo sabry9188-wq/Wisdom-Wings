@@ -94,7 +94,7 @@ export default async function FeesPage({
                       <Td>
                         <Link
                           href={`/admin/fees/${f.id}`}
-                          className="text-indigo-600 hover:underline"
+                          className="text-brand-600 hover:underline"
                         >
                           View
                         </Link>

@@ -9,6 +9,29 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  /* Sampled from the real Wisdom Wings logo artwork (public/logo-icon-512.png) */
+  --color-brand-50: #eef6fb;
+  --color-brand-100: #d9ebf5;
+  --color-brand-200: #b3d7eb;
+  --color-brand-300: #82bcdc;
+  --color-brand-400: #4d99c4;
+  --color-brand-500: #2679a8;
+  --color-brand-600: #106098;
+  --color-brand-700: #0d4d7a;
+  --color-brand-800: #0b3d61;
+  --color-brand-900: #0a3350;
+
+  --color-accent-50: #fff5e9;
+  --color-accent-100: #ffe6c2;
+  --color-accent-200: #ffcb85;
+  --color-accent-300: #ffab4d;
+  --color-accent-400: #f89b2e;
+  --color-accent-500: #e88820;
+  --color-accent-600: #cc6f10;
+  --color-accent-700: #a8590c;
+  --color-accent-800: #7a400a;
+  --color-accent-900: #5c3008;
 }
 
 body {
@@ -18,8 +41,8 @@ body {
 }
 
 ::selection {
-  background: #c7d2fe;
-  color: #1e1b4b;
+  background: #b3d7eb;
+  color: #0a3350;
 }
 
 /* Slim, unobtrusive scrollbar for the dense dashboard tables/lists */

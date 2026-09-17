@@ -58,7 +58,7 @@ export default async function TeacherDashboardPage() {
       <PageHeader title="Dashboard" description={`Welcome back, ${user.full_name}`} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Assigned Classes" value={classRows?.length ?? 0} icon={School} tone="indigo" />
+        <StatCard label="Assigned Classes" value={classRows?.length ?? 0} icon={School} tone="brand" />
         <StatCard label="Total Students" value={studentsCount.count ?? 0} icon={GraduationCap} tone="sky" />
         <StatCard
           label="Attendance Marked Today"
@@ -74,7 +74,7 @@ export default async function TeacherDashboardPage() {
           <CardHeader
             title="My classes"
             action={
-              <Link href="/teacher/classes" className="text-sm text-indigo-600 hover:underline">
+              <Link href="/teacher/classes" className="text-sm text-brand-600 hover:underline">
                 View all
               </Link>
             }
@@ -101,7 +101,7 @@ export default async function TeacherDashboardPage() {
                         ) : (
                           <Link
                             href={`/teacher/attendance?class=${c.class_id}`}
-                            className="text-indigo-600 hover:underline"
+                            className="text-brand-600 hover:underline"
                           >
                             Mark now
                           </Link>

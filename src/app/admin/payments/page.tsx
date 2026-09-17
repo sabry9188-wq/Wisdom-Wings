@@ -62,7 +62,7 @@ export default async function PaymentsPage({
                       {p.fees?.students ? (
                         <Link
                           href={`/admin/students/${p.fees.students.id}`}
-                          className="text-indigo-600 hover:underline"
+                          className="text-brand-600 hover:underline"
                         >
                           {p.fees.students.full_name}
                         </Link>

@@ -86,7 +86,7 @@ function LoginForm() {
         </Button>
 
         <p className="text-center text-sm text-slate-500">
-          <Link href="/forgot-password" className="text-indigo-600 hover:underline">
+          <Link href="/forgot-password" className="text-brand-600 hover:underline">
             Forgot password?
           </Link>
         </p>
