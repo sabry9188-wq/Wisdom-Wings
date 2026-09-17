@@ -32,8 +32,16 @@ export function Tbody({ children }: { children: React.ReactNode }) {
   return <tbody className="divide-y divide-slate-100 bg-white">{children}</tbody>;
 }
 
-export function Td({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <td className={cn("px-4 py-3 text-slate-700", className)}>{children}</td>;
+export function Td({
+  children,
+  className,
+  ...props
+}: React.TdHTMLAttributes<HTMLTableCellElement>) {
+  return (
+    <td className={cn("px-4 py-3 text-slate-700", className)} {...props}>
+      {children}
+    </td>
+  );
 }
 
 export function EmptyState({ message }: { message: string }) {
